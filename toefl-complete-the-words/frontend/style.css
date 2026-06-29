@@ -1,0 +1,480 @@
+/* ==========================================================================
+   TOEFL iBT® Reading Practice — Complete the Words
+   Theme: Authentic ETS TOEFL iBT testing environment
+   ========================================================================== */
+
+/* ----- Reset & Base ----- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #1a1a1a;
+    background: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   TOP BAR — Navy blue header, mimics TOEFL iBT
+   ========================================================================== */
+#top-bar {
+    background: linear-gradient(180deg, #1b3a5c 0%, #14304d 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 48px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 100;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.section-divider {
+    opacity: 0.4;
+    font-size: 18px;
+}
+
+.exercise-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 14px;
+    border-radius: 4px;
+}
+
+.timer-icon {
+    opacity: 0.8;
+}
+
+#timer {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    min-width: 48px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   MAIN CONTENT AREA
+   ========================================================================== */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    background: #e8e8e8;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* ----- Topic Badge ----- */
+#topic-badge {
+    background: #1b3a5c;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 6px 20px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+}
+
+/* ----- Directions ----- */
+#directions {
+    background: #f5f0e6;
+    border: 1px solid #d4c9a8;
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    max-width: 720px;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #3a3a3a;
+    line-height: 1.55;
+}
+
+#directions strong {
+    color: #1a1a1a;
+}
+
+/* ----- Passage Container ----- */
+#passage-container {
+    background: #ffffff;
+    border: 1px solid #b0b0b0;
+    border-radius: 4px;
+    padding: 32px 40px;
+    max-width: 720px;
+    width: 100%;
+    font-size: 17px;
+    line-height: 2.2;
+    color: #1a1a1a;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    /* Anti-cheat: disable text selection */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* ----- Word Prefix (visible letters before blank) ----- */
+.word-prefix {
+    font-weight: 600;
+    color: #1b3a5c;
+    letter-spacing: 0.3px;
+}
+
+/* ----- Blank Group (group of letter boxes) ----- */
+.blank-group {
+    display: inline-flex;
+    gap: 2px;
+    margin: 0 4px;
+    vertical-align: middle;
+}
+
+/* ----- Individual Letter Box Input [ ] ----- */
+.char-input {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 600;
+    width: 24px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #1b3a5c;
+    border-radius: 4px;
+    background: #f0f4f8;
+    color: #1a1a1a;
+    padding: 0;
+    outline: none;
+    transition: all 0.2s ease;
+    user-select: text;
+}
+
+.char-input:focus {
+    border-color: #ff8c00;
+    background: #fff8ed;
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+}
+
+/* Grading States for Letter Boxes */
+.char-input.correct {
+    border-color: #2e7d32;
+    background: #e8f5e9;
+    color: #1b5e20;
+    font-weight: 700;
+}
+
+.char-input.incorrect {
+    border-color: #c62828;
+    background: #ffebee;
+    color: #b71c1c;
+    font-weight: 700;
+}
+
+.char-input.correct:focus,
+.char-input.incorrect:focus {
+    box-shadow: none;
+}
+
+/* Disabled state after submit */
+.char-input:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+/* ----- Correct Answer Tooltip ----- */
+.answer-reveal {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #c62828;
+    margin-left: 4px;
+    opacity: 0;
+    animation: fadeInAnswer 0.4s ease forwards;
+}
+
+@keyframes fadeInAnswer {
+    to { opacity: 1; }
+}
+
+/* ==========================================================================
+   RESULT BANNER
+   ========================================================================== */
+#result-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 720px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px 24px;
+    border-radius: 6px;
+    font-family: Arial, Helvetica, sans-serif;
+    animation: slideInBanner 0.4s ease;
+}
+
+@keyframes slideInBanner {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#result-banner.perfect {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border: 1px solid #a5d6a7;
+}
+
+#result-banner.good {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 1px solid #ffe082;
+}
+
+#result-banner.needs-work {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border: 1px solid #ef9a9a;
+}
+
+.result-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.result-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#result-score {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+#result-message {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ==========================================================================
+   LOADING OVERLAY
+   ========================================================================== */
+#loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(232, 232, 232, 0.92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 50;
+}
+
+.spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #d0d0d0;
+    border-top-color: #1b3a5c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 0.3px;
+}
+
+/* ==========================================================================
+   ERROR MESSAGE
+   ========================================================================== */
+#error-message {
+    text-align: center;
+    max-width: 500px;
+    padding: 32px;
+}
+
+#error-text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #c62828;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   BOTTOM BAR
+   ========================================================================== */
+#bottom-bar {
+    background: linear-gradient(180deg, #f0f0f0 0%, #d8d8d8 100%);
+    border-top: 1px solid #b0b0b0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.bottom-bar-left {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #555;
+}
+
+.bottom-bar-right {
+    display: flex;
+    gap: 10px;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 24px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #1b3a5c;
+    color: #ffffff;
+    border-color: #14304d;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #244d75;
+}
+
+.btn-submit {
+    background: linear-gradient(180deg, #2a6db5 0%, #1b5a9e 100%);
+    color: #ffffff;
+    border-color: #165091;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: linear-gradient(180deg, #3480cc 0%, #2268b3 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-submit:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.btn-next {
+    background: linear-gradient(180deg, #ff9800 0%, #e68900 100%);
+    color: #ffffff;
+    border-color: #cc7a00;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.btn-next:hover:not(:disabled) {
+    background: linear-gradient(180deg, #ffab30 0%, #ff9800 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-next:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE — Ensure readability on smaller screens
+   ========================================================================== */
+@media (max-width: 800px) {
+    #passage-container {
+        padding: 20px 20px;
+        font-size: 15px;
+    }
+
+    #main-content {
+        padding: 20px 12px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TOEFL iBT Reading - Complete the Words practice application" />
+    <title>TOEFL iBT® Reading Practice — Complete the Words</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ===== TOP BAR ===== -->
+    <header id="top-bar">
+        <div class="top-bar-left">
+            <span class="section-label">Reading</span>
+            <span class="section-divider">|</span>
+            <span class="exercise-label">Complete the Words</span>
+        </div>
+        <div class="top-bar-right">
+            <div class="timer-container">
+                <svg class="timer-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span id="timer">00:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main-content">
+
+        <!-- Topic Badge -->
+        <div id="topic-badge" class="hidden">
+            <span id="topic-text"></span>
+        </div>
+
+        <!-- Directions -->
+        <div id="directions" class="hidden">
+            <p><strong>Directions:</strong> Read the passage below. Some words have been partially hidden.
+            Type the missing letters in each blank to complete the word. When you have finished,
+            click <strong>Submit</strong> to check your answers.</p>
+        </div>
+
+        <!-- Passage Container (anti-cheat applied here) -->
+        <div id="passage-container" class="hidden">
+            <!-- Dynamically rendered passage with inputs -->
+        </div>
+
+        <!-- Result Banner -->
+        <div id="result-banner" class="hidden">
+            <div class="result-icon" id="result-icon"></div>
+            <div class="result-info">
+                <span id="result-score"></span>
+                <span id="result-message"></span>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="hidden">
+            <div class="spinner"></div>
+            <p class="loading-text">Generating a new passage…</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="hidden">
+            <p id="error-text"></p>
+            <button id="retry-btn" class="btn btn-primary">Retry</button>
+        </div>
+
+    </main>
+
+    <!-- ===== BOTTOM BAR ===== -->
+    <footer id="bottom-bar">
+        <div class="bottom-bar-left">
+            <span id="question-info" class="hidden">
+                <span id="blank-count"></span> blanks
+            </span>
+        </div>
+        <div class="bottom-bar-right">
+            <button id="submit-btn" class="btn btn-submit hidden" disabled>Submit</button>
+            <button id="next-btn" class="btn btn-next hidden">Next Paragraph</button>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
